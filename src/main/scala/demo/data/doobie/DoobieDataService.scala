@@ -38,7 +38,7 @@ class DoobieDataService(transactor: Transactor[Task]) extends DataService:
           .reduce:
             _ ++ fr", " ++ _
       val stmt =
-        sql"insert into measurement (time, label, name, unit, value) values " ++ valuesFrag ++
+        sql"insert into meas (time, label, name, unit, value) values " ++ valuesFrag ++
           fr" on conflict do nothing"
       stmt.update.run.transact(transactor)
     else ZIO.succeed(0)
