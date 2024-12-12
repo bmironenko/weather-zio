@@ -1,6 +1,6 @@
-ThisBuild / version := "0.1.0-SNAPSHOT"
+ThisBuild / version := "0.2.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "3.5.0"
+ThisBuild / scalaVersion := "3.6.2"
 
 lazy val root = (project in file("."))
   .enablePlugins(
@@ -28,7 +28,7 @@ lazy val root = (project in file("."))
       packageMapping(
         (
           file("src/main/resources/application.conf"),
-          "/opt//weather-zio/conf/application.conf"
+          "/opt/weather-zio/conf/application.conf"
         )
       )
         .withConfig("noreplace")
@@ -37,19 +37,19 @@ lazy val root = (project in file("."))
     ),
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-core" % "2.12.0",
-      "org.tpolecat" %% "doobie-core" % "1.0.0-RC5",
-      "org.tpolecat" %% "doobie-hikari" % "1.0.0-RC5",
-      "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC5",
-      "dev.zio" %% "zio" % "2.1.7",
+      "org.tpolecat" %% "doobie-core" % "1.0.0-RC6",
+      "org.tpolecat" %% "doobie-hikari" % "1.0.0-RC6",
+      "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC6",
+      "dev.zio" %% "zio" % "2.1.13",
       "dev.zio" %% "zio-config" % "4.0.2",
       "dev.zio" %% "zio-config-typesafe" % "4.0.2",
-      "dev.zio" %% "zio-logging" % "2.3.0",
-      "dev.zio" %% "zio-json" % "0.7.2",
-      "dev.zio" %% "zio-http" % "3.0.0-RC9",
+      "dev.zio" %% "zio-logging" % "2.4.0",
+      "dev.zio" %% "zio-json" % "0.7.3",
+      "dev.zio" %% "zio-http" % "3.0.1",
       "dev.zio" %% "zio-interop-cats" % "23.1.0.3",
-      "io.getquill" %% "quill-jdbc-zio" % "4.8.5",
+      "io.getquill" %% "quill-jdbc-zio" % "4.8.6",
       "com.typesafe" % "config" % "1.4.3",
-      "org.postgresql" % "postgresql" % "42.7.3",
+      "org.postgresql" % "postgresql" % "42.7.4",
       "org.slf4j" % "slf4j-simple" % "2.0.16",
       "org.scalatest" %% "scalatest" % "3.2.19" % Test
     ),

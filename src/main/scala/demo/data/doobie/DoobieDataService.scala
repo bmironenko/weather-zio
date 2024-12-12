@@ -4,7 +4,6 @@ import demo.data.DataService
 import demo.data.Model.Measurement
 import doobie.*
 import doobie.implicits.*
-import doobie.implicits.javasql.*
 import zio.*
 import zio.interop.catz.*
 
