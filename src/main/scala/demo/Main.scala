@@ -2,19 +2,15 @@ package demo
 
 import demo.data.DataService
 import demo.data.Model.Measurement
-import demo.data.doobie.DoobieDataService
-import demo.data.doobie.DriverManagerTransactor
+import demo.data.doobie.{DoobieDataService, DriverManagerTransactor}
 import demo.owm.OpenWeatherMap
 import zio.*
 import zio.config.*
 import zio.config.typesafe.TypesafeConfigProvider
-import zio.http.Client
-import zio.http.DnsResolver
-import zio.http.ZClient
 import zio.http.netty.NettyConfig
 import zio.http.netty.client.NettyClientDriver
-import zio.logging.consoleLogger
-import zio.logging.loggerName
+import zio.http.{Client, DnsResolver, ZClient}
+import zio.logging.{consoleLogger, loggerName}
 import zio.stream.ZStream
 
 object Main extends ZIOAppDefault:
@@ -41,7 +37,7 @@ object Main extends ZIOAppDefault:
       Client.customized
     )
 
-  def run: RIO[ZIOAppArgs & Scope, ExitCode] =
+  def run: RIO[ZIOAppArgs, ExitCode] =
     for
       config <- ZIO.config(AppConfig.config)
       result <-
@@ -64,8 +60,7 @@ object Main extends ZIOAppDefault:
           .provide(
             httpClientLayer,
             DoobieDataService.live,
-            DriverManagerTransactor.fromPrefix("doobie"),
-            ZLayer.fromZIO(Scope.make)
+            DriverManagerTransactor.fromPrefix("doobie")
             // QuillDataService.live
             // QuillPostgresContext.live,
             // Quill.DataSource.fromPrefix("quill"),
@@ -81,11 +76,7 @@ object Main extends ZIOAppDefault:
     */
   private def createOpenWeatherMapStream(
       config: NamedOpenWeatherMapStream
-  ): ZStream[
-    Client & Scope,
-    Throwable,
-    (String, Sample[OpenWeatherMap.Units])
-  ] =
+  ): ZStream[Client, Throwable, (String, Sample[OpenWeatherMap.Units])] =
     OpenWeatherMap
       .streamGeneric(config.stream)
       .map: s =>

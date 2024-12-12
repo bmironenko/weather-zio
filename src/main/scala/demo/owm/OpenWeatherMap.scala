@@ -41,15 +41,20 @@ object OpenWeatherMap:
     */
   def sample(
       config: OpenWeatherMapRequest
-  ): RIO[Client & Scope, CurrentWeather] =
+  ): RIO[Client, CurrentWeather] =
     val request = createRequest(config)
-    for
-      response <- Client.request(request)
-      body <- response.body.asString
+    for {
+      responseBody <-
+        ZIO.scoped:
+          for {
+            client <- ZIO.service[Client]
+            response <- client.request(request)
+            responseBody <- response.body.asString
+          } yield responseBody
       weather <- ZIO
-        .fromEither(body.fromJson[CurrentWeather])
+        .fromEither(responseBody.fromJson[CurrentWeather])
         .mapError(ResponseDecodeError.apply)
-    yield weather
+    } yield weather
 
   /** Create a stream of weather samples.
     *
@@ -60,7 +65,7 @@ object OpenWeatherMap:
     */
   def stream(
       config: OpenWeatherMapStream
-  ): ZStream[Client & Scope, Throwable, CurrentWeather] =
+  ): ZStream[Client, Throwable, CurrentWeather] =
     val logger = loggerName(
       f"owm @ ${config.request.latitude}%.2f,${config.request.longitude}%.2f"
     )
@@ -74,7 +79,7 @@ object OpenWeatherMap:
       .tapError: e =>
         ZIO.logError(s"OWM API error: ${e.toString}") @@ logger
       .catchSome:
-        case e: (IOException | CodecException) =>
+        case _: (IOException | CodecException) =>
           // Wait, then restart the stream
           ZStream
             .fromSchedule(Schedule.duration(config.sampleRate))
@@ -105,7 +110,7 @@ object OpenWeatherMap:
     */
   def streamGeneric(
       config: OpenWeatherMapStream
-  ): ZStream[Client & Scope, Throwable, Sample[Units]] =
+  ): ZStream[Client, Throwable, Sample[Units]] =
     stream(config)
       .flatMap: data =>
         ZStream(
