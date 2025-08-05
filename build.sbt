@@ -1,6 +1,6 @@
-ThisBuild / version := "0.2.0-SNAPSHOT"
+ThisBuild / version := "0.3.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "3.6.4"
+ThisBuild / scalaVersion := "3.7.2"
 
 lazy val root = (project in file("."))
   .enablePlugins(
@@ -37,19 +37,19 @@ lazy val root = (project in file("."))
     ),
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-core" % "2.13.0",
-      "org.tpolecat" %% "doobie-core" % "1.0.0-RC8",
-      "org.tpolecat" %% "doobie-hikari" % "1.0.0-RC8",
-      "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC8",
-      "dev.zio" %% "zio" % "2.1.16",
+      "org.tpolecat" %% "doobie-core" % "1.0.0-RC10",
+      "org.tpolecat" %% "doobie-hikari" % "1.0.0-RC10",
+      "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC10",
+      "dev.zio" %% "zio" % "2.1.20",
       "dev.zio" %% "zio-config" % "4.0.4",
       "dev.zio" %% "zio-config-typesafe" % "4.0.4",
-      "dev.zio" %% "zio-logging" % "2.5.0",
-      "dev.zio" %% "zio-json" % "0.7.39",
-      "dev.zio" %% "zio-http" % "3.2.0",
+      "dev.zio" %% "zio-logging" % "2.5.1",
+      "dev.zio" %% "zio-json" % "0.7.44",
+      "dev.zio" %% "zio-http" % "3.3.3",
       "dev.zio" %% "zio-interop-cats" % "23.1.0.5",
       "io.getquill" %% "quill-jdbc-zio" % "4.8.6",
-      "com.typesafe" % "config" % "1.4.3",
-      "org.postgresql" % "postgresql" % "42.7.5",
+      "com.typesafe" % "config" % "1.4.4",
+      "org.postgresql" % "postgresql" % "42.7.7",
       "org.slf4j" % "slf4j-simple" % "2.0.17",
       "org.scalatest" %% "scalatest" % "3.2.19" % Test
     ),
