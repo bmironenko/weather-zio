@@ -165,8 +165,7 @@ object OpenWeatherMap:
       .get(config.endpointUrl)
       .patch(
         Request.Patch(
-          // FIXME: see https://github.com/zio/zio-http/issues/1025#issuecomment-1214427882
-          addHeaders = Headers(Header.Connection.Close),
+          addHeaders = Headers.empty,
           addQueryParams = QueryParams(
             "appid" -> config.apiId,
             "lat" -> config.latitude.toString,
